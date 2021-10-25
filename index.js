@@ -15,24 +15,24 @@ module.exports = function () {
         }
 
         const path = file.history[0];
+
         if (!path.startsWith(file._base)) {
             throw new PluginError(PLUGIN_NAME, new Error('Unable to calculate relative path'));
         }
+
         const relativePath = path.substr(file._base.length);
 
-        file._contents = Buffer.from(getJs(relativePath, file._contents.toString(encoding)));
+        file._contents = Buffer.from(getJs(relativePath, file._contents.toString(encoding)), encoding);
 
         callback(null, file, encoding);
     };
 
     function getJs (relativePath, html) {
-        return 't.put(\'' + relativePath + '\',\'' + toJsString(html) + '\');';
-    }
-
-    function toJsString (html) {
-        return html.replace(/\\/g, '\\\\')
+        const jsString = html.replace(/\\/g, '\\\\')
             .replace(/'/g, '\\\'')
-            .replace(/\r?\n/g, "\\n");
+            .replace(/\r?\n/g, '\\n');
+
+        return `t.put('${relativePath}','${jsString}');`;
     }
 
     return transformStream;
@@ -47,11 +47,11 @@ module.exports.wrap = function (moduleName) {
             return callback(null, file, encoding);
         }
 
-        const header = Buffer.from('angular.module(\'' + moduleName + '\').run([\'$templateCache\',function(t){\n',
-            encoding);
-        const footer = Buffer.from('\n}]);', encoding);
-
-        file._contents = Buffer.concat([header, file._contents, footer]);
+        file._contents = Buffer.concat([
+            Buffer.from(`angular.module('${moduleName}').run(['$templateCache',function(t){\n`, encoding),
+            file._contents,
+            Buffer.from('\n}]);', encoding)
+        ]);
 
         callback(null, file, encoding);
     }
