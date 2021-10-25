@@ -1,0 +1,24 @@
+{
+  "name": "gulp-angular-templates-lite",
+  "version": "1.0.0",
+  "description": "Transform angular.js HTML templates to javascript with minimal dependencies",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "gulpplugin",
+    "angular",
+    "templates",
+    "templatecache"
+  ],
+  "author": "Aaron Schinkowitch",
+  "license": "ISC",
+  "dependencies": {
+    "plugin-error": "^1.0.1"
+  },
+  "devDependencies": {
+    "mocha": "^9.1.3",
+    "vinyl": "^2.2.1"
+  }
+}
