@@ -8,12 +8,6 @@ const PLUGIN_NAME = 'gulp-angular-templates-lite';
 module.exports = function () {
     const transformStream = new Transform({objectMode: true});
 
-    /**
-     * @param {Buffer|string} file
-     * @param {string=} encoding - ignored if file contains a Buffer
-     * @param {function(Error, object)} callback - Call this function (optionally with an
-     *          error argument and data) when you are done processing the supplied chunk.
-     */
     transformStream._transform = function(file, encoding, callback) {
         if (!file) {
             // nothing to do
