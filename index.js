@@ -53,6 +53,12 @@ module.exports.surround = function (moduleName) {
             return callback(null, file);
         }
 
-        const header = Buffer.from('')
+        const header = Buffer.from('angular.module(\'' + moduleName + '\').run([\'$templateCache\',function(t){\n',
+            encoding);
+        const footer = Buffer.from('}]);')
+
+        file._contents = Buffer.concat([header, file._contents, footer]);
+
+        callback(null, file, encoding);
     }
 }
