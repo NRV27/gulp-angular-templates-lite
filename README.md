@@ -16,9 +16,9 @@ const concat = require('gulp-concat');
 function buildTemplates () {
     return gulp.src('client/app/**/*.html')
         .pipe(htmlmin({}))  // Optional: miminize the HTML before converting to javascript
-        .pipe(angularTemplatesLite()) // Convert each HTML file to a single line of javascript
+        .pipe(angularTemplates()) // Convert each HTML file to a single line of javascript
         .pipe(concat('templates.js')) // Concatenate the lines of javascript to a single javascript file
-        .pipe(angularTemplatesLite.wrap('myApp')) // Wrap the lines of template javascript using provided angular module name 
+        .pipe(angularTemplates.wrap('myApp')) // Wrap the lines of template javascript using provided angular module name 
         .pipe(gulp.dest('.tmp/')); // Output the templates.js the specified directory
 }
 ```
