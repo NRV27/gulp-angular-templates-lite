@@ -32,8 +32,7 @@ module.exports = function () {
     };
 
     function getJs (relativePath, html) {
-        return '\nm.run([\'$templateCache\',function(t){t.put(\'' + relativePath + '\',\'' + toJsString(html)
-            + '\')}]);';
+        return 'm.run([\'$templateCache\',function(t){t.put(\'' + relativePath + '\',\'' + toJsString(html) + '\')}]);';
     }
 
     function toJsString (html) {
