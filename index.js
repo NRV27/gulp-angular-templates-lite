@@ -44,18 +44,18 @@ module.exports = function () {
     return transformStream;
 };
 
-module.exports.surround = function (moduleName) {
+module.exports.wrap = function (moduleName) {
     const transformStream = new Transform({objectMode: true});
 
     transformStream._transform = function(file, encoding, callback) {
         if (!file) {
             // nothing to do
-            return callback(null, file);
+            return callback(null, file, encoding);
         }
 
         const header = Buffer.from('angular.module(\'' + moduleName + '\').run([\'$templateCache\',function(t){\n',
             encoding);
-        const footer = Buffer.from('}]);')
+        const footer = Buffer.from('\n}]);', encoding);
 
         file._contents = Buffer.concat([header, file._contents, footer]);
 
