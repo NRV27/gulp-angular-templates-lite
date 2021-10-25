@@ -18,7 +18,7 @@ function buildTemplates () {
         .pipe(htmlmin({}))  // Optional: miminize the HTML before converting to javascript
         .pipe(angularTemplatesLite()) // Convert each HTML file to a single line of javascript
         .pipe(concat('templates.js')) // Concatenate the lines of javascript to a single javascript file
-        .pipe(angularTemplatesLite.wrap('plingApp')) // Wrap the lines of template javascript  
+        .pipe(angularTemplatesLite.wrap('myApp')) // Wrap the lines of template javascript using provided angular module name 
         .pipe(gulp.dest('.tmp/')); // Output the templates.js the specified directory
 }
 ```
