@@ -61,4 +61,6 @@ module.exports.surround = function (moduleName) {
 
         callback(null, file, encoding);
     }
+
+    return transformStream;
 }
