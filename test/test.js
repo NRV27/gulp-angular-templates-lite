@@ -12,7 +12,7 @@ describe('transforms html to js', () => {
 
         stream.on('data', function (file) {
             assert.strictEqual(file.relative, 'template-a.html');
-            assert.strictEqual(file.contents.toString('utf8'), '\nm.run([\'$templateCache\',function(t){t.put(\'/template-a.html\',\'<h1 id="template-a">I\\\'m template A!</h1>\')}]);');
+            assert.strictEqual(file.contents.toString('utf8'), 't.put(\'/template-a.html\',\'<h1 id="template-a">I\\\'m template A!</h1>\');');
             done();
         });
 

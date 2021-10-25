@@ -32,7 +32,7 @@ module.exports = function () {
     };
 
     function getJs (relativePath, html) {
-        return 'm.run([\'$templateCache\',function(t){t.put(\'' + relativePath + '\',\'' + toJsString(html) + '\')}]);';
+        return 't.put(\'' + relativePath + '\',\'' + toJsString(html) + '\');';
     }
 
     function toJsString (html) {
@@ -43,3 +43,16 @@ module.exports = function () {
 
     return transformStream;
 };
+
+module.exports.surround = function (moduleName) {
+    const transformStream = new Transform({objectMode: true});
+
+    transformStream._transform = function(file, encoding, callback) {
+        if (!file) {
+            // nothing to do
+            return callback(null, file);
+        }
+
+        const header = Buffer.from('')
+    }
+}
