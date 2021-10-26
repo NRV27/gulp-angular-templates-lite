@@ -11,15 +11,14 @@ describe('transform html to js', () => {
         const stream = toJs();
 
         stream.on('data', function (file) {
-            assert.strictEqual(file.relative, 'template-a.html');
             assert.strictEqual(file.contents.toString('utf8'),
-                't.put(\'/template-a.html\',\'<h1 id="template-a">I\\\'m template A!</h1>\');');
+                't.put(\'app/template-a.html\',\'<h1 id="template-a">I\\\'m template A!</h1>\');');
             done();
         });
 
         stream.write(new Vinyl({
             base: __dirname,
-            path: __dirname + '/template-a.html',
+            path: __dirname + '/app/template-a.html',
             contents: Buffer.from('<h1 id="template-a">I\'m template A!</h1>')
         }));
 
@@ -32,8 +31,8 @@ describe('wraps js templates', () => {
         const moduleName = 'moduleName' + Math.ceil(Math.random() * 100);
         const stream = toJs.wrap(moduleName);
 
-        const originalContent = 't.put(\'/template-a.html\',\'<h1 id="template-a">I\\\'m template A!</h1>\');'
-            + 't.put(\'/template-b.html\',\'<h1 id="template-b">I\\\'m template B!</h1>\');';
+        const originalContent = 't.put(\'template-a.html\',\'<h1 id="template-a">I\\\'m template A!</h1>\');'
+            + 't.put(\'template-b.html\',\'<h1 id="template-b">I\\\'m template B!</h1>\');';
         const expected = `angular.module('${moduleName}').run(['$templateCache',function(t){\n${originalContent}\n}]);`;
 
         stream.on('data', function (file) {

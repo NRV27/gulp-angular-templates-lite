@@ -8,23 +8,18 @@ const PLUGIN_NAME = 'gulp-angular-templates-lite';
 module.exports = function () {
     const transformStream = new Transform({objectMode: true});
 
-    transformStream._transform = function(file, encoding, callback) {
+    transformStream._transform = function (file, encoding, callback) {
         if (!file) {
-            // nothing to do
             return callback(null, file);
         }
 
-        const path = file.history[0];
-
-        if (!path.startsWith(file._base)) {
-            throw new PluginError(PLUGIN_NAME, new Error('Unable to calculate relative path'));
+        if (!file.relative) {
+            return callback(new PluginError(PLUGIN_NAME, new Error('Relative path missing for file')));
         }
 
-        const relativePath = path.substr(file._base.length);
+        file._contents = Buffer.from(getJs(file.relative, file._contents.toString(encoding)), encoding);
 
-        file._contents = Buffer.from(getJs(relativePath, file._contents.toString(encoding)), encoding);
-
-        callback(null, file, encoding);
+        callback(null, file);
     };
 
     function getJs (relativePath, html) {
@@ -41,10 +36,9 @@ module.exports = function () {
 module.exports.wrap = function (moduleName) {
     const transformStream = new Transform({objectMode: true});
 
-    transformStream._transform = function(file, encoding, callback) {
+    transformStream._transform = function (file, encoding, callback) {
         if (!file) {
-            // nothing to do
-            return callback(null, file, encoding);
+            return callback(null, file);
         }
 
         file._contents = Buffer.concat([
@@ -53,7 +47,7 @@ module.exports.wrap = function (moduleName) {
             Buffer.from('\n}]);', encoding)
         ]);
 
-        callback(null, file, encoding);
+        callback(null, file);
     }
 
     return transformStream;
