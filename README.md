@@ -1,5 +1,5 @@
-# grunt-angular-templates-lite
-Lightweight Gulp task to convert angular.js (v1) html templates to javascript that uses the template cache.
+# gulp-angular-templates-lite
+Lightweight [Gulp](https://gulpjs.com) task to convert [AngularJS (v1)](https://angularjs.org) html templates to javascript that uses the template cache.
 
 ## Install
 ```
