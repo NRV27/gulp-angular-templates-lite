@@ -14,6 +14,7 @@ INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
 THIS SOFTWARE.
 */
+const path = require('path');
 
 const Transform = require('stream').Transform;
 const PluginError = require('plugin-error');
@@ -38,11 +39,12 @@ module.exports = function () {
     };
 
     function getJs (relativePath, html) {
+        const formattedPath = relativePath.split(path.sep).join('/');
         const jsString = html.replace(/\\/g, '\\\\')
             .replace(/'/g, '\\\'')
             .replace(/\r?\n/g, '\\n');
 
-        return `t.put('${relativePath}','${jsString}');`;
+        return `t.put('${formattedPath}','${jsString}');`;
     }
 
     return transformStream;
